@@ -2,7 +2,16 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/Card";
 import { GameControls } from "@/components/GameControls";
 import { ScoreBoard } from "@/components/ScoreBoard";
-import { createDeck, shuffleDeck, dealCards, type Card as CardType, type Player, type Suit } from "@/utils/gameLogic";
+import { 
+  createDeck, 
+  shuffleDeck, 
+  dealCards, 
+  SUITS,
+  CARD_VALUES,
+  type Card as CardType, 
+  type Player, 
+  type Suit 
+} from "@/utils/gameLogic";
 import { toast } from "sonner";
 
 const Index = () => {
