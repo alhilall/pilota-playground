@@ -20,6 +20,7 @@ const Index = () => {
   
   useEffect(() => {
     startNewGame();
+    console.log("Game initialized");
   }, []);
 
   const startNewGame = () => {
@@ -45,7 +46,41 @@ const Index = () => {
     setCurrentSuit(prev => prev || card.suit);
     setIsPlayerTurn(false);
     
+    // محاكاة لعب الكمبيوتر
+    setTimeout(() => {
+      simulateComputerPlay();
+    }, 1000);
+    
     console.log("Player played card:", card);
+  };
+
+  const simulateComputerPlay = () => {
+    // محاكاة بسيطة للعب الكمبيوتر
+    const computerPlayers: Player[] = ['right', 'top', 'left'];
+    computerPlayers.forEach((player, index) => {
+      setTimeout(() => {
+        const randomCard: CardType = {
+          suit: SUITS[Math.floor(Math.random() * SUITS.length)],
+          value: CARD_VALUES[Math.floor(Math.random() * CARD_VALUES.length)]
+        };
+        setCurrentTrick(prev => ({ ...prev, [player]: randomCard }));
+        console.log(`Computer ${player} played:`, randomCard);
+        
+        if (player === 'left') {
+          // بعد انتهاء دور جميع اللاعبين
+          setTimeout(() => {
+            setCurrentTrick({
+              player: null,
+              right: null,
+              top: null,
+              left: null
+            });
+            setCurrentSuit(null);
+            setIsPlayerTurn(true);
+          }, 1000);
+        }
+      }, (index + 1) * 1000);
+    });
   };
 
   return (
@@ -53,7 +88,7 @@ const Index = () => {
       <div className="container mx-auto p-4">
         <div className="relative w-full h-[calc(100vh-2rem)] max-h-[800px] bg-table rounded-3xl shadow-2xl p-4 sm:p-8">
           {/* الخصم العلوي */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-2">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-0.5">
             {Array(8).fill(null).map((_, i) => (
               <Card 
                 key={`top-${i}`} 
@@ -62,34 +97,37 @@ const Index = () => {
                 faceDown 
                 className="-rotate-180" 
                 isPlayable={false}
+                size="small"
               />
             ))}
           </div>
 
           {/* الخصم الأيسر */}
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-1 sm:gap-2">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-0.5">
             {Array(8).fill(null).map((_, i) => (
               <Card 
                 key={`left-${i}`} 
                 suit="" 
                 value="" 
                 faceDown 
-                className="-rotate-90" 
+                orientation="horizontal"
                 isPlayable={false}
+                size="small"
               />
             ))}
           </div>
 
           {/* الخصم الأيمن */}
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-1 sm:gap-2">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-0.5">
             {Array(8).fill(null).map((_, i) => (
               <Card 
                 key={`right-${i}`} 
                 suit="" 
                 value="" 
                 faceDown 
-                className="rotate-90" 
+                orientation="horizontal"
                 isPlayable={false}
+                size="small"
               />
             ))}
           </div>
@@ -114,7 +152,7 @@ const Index = () => {
           })}
 
           {/* بطاقات اللاعب */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1 sm:gap-2">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1">
             {playerCards.map((card, i) => (
               <Card 
                 key={`player-${i}`} 

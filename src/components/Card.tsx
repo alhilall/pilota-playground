@@ -7,24 +7,41 @@ interface CardProps {
   onClick?: () => void;
   className?: string;
   isPlayable?: boolean;
+  size?: 'small' | 'normal';
+  orientation?: 'vertical' | 'horizontal';
 }
 
-export const Card = ({ suit, value, faceDown = false, onClick, className, isPlayable = true }: CardProps) => {
+export const Card = ({ 
+  suit, 
+  value, 
+  faceDown = false, 
+  onClick, 
+  className, 
+  isPlayable = true,
+  size = 'normal',
+  orientation = 'vertical'
+}: CardProps) => {
   const getSuitColor = () => {
     return suit === "♥" || suit === "♦" ? "text-red-600" : "text-black";
   };
 
+  const sizeClasses = {
+    small: "w-10 h-16 sm:w-12 sm:h-20 text-xs",
+    normal: "w-16 h-24 sm:w-20 sm:h-32"
+  };
+
+  const baseClasses = cn(
+    "relative rounded-lg transition-all duration-300",
+    "shadow-lg border-2 border-gray-200",
+    isPlayable && !faceDown && "hover:-translate-y-4 cursor-pointer",
+    !isPlayable && "opacity-70",
+    sizeClasses[size],
+    orientation === 'horizontal' && "rotate-90",
+    className
+  );
+
   return (
-    <div
-      onClick={isPlayable ? onClick : undefined}
-      className={cn(
-        "relative w-16 h-24 sm:w-20 sm:h-32 rounded-lg transition-all duration-300",
-        "shadow-lg border-2 border-gray-200",
-        isPlayable && !faceDown && "hover:-translate-y-4 cursor-pointer",
-        !isPlayable && "opacity-70",
-        className
-      )}
-    >
+    <div onClick={isPlayable ? onClick : undefined} className={baseClasses}>
       {!faceDown ? (
         <div className="w-full h-full flex flex-col justify-between p-2 bg-white rounded-lg">
           <div className={cn("text-sm sm:text-lg font-bold", getSuitColor())}>
