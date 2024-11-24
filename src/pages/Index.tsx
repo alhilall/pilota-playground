@@ -8,6 +8,8 @@ import {
   createDeck, 
   shuffleDeck, 
   dealCards,
+  SUITS,
+  CARD_VALUES,
   type Card as CardType, 
   type Player, 
   type Suit 
