@@ -6,30 +6,33 @@ interface CardProps {
   faceDown?: boolean;
   onClick?: () => void;
   className?: string;
+  isPlayable?: boolean;
 }
 
-export const Card = ({ suit, value, faceDown = false, onClick, className }: CardProps) => {
+export const Card = ({ suit, value, faceDown = false, onClick, className, isPlayable = true }: CardProps) => {
   const getSuitColor = () => {
     return suit === "♥" || suit === "♦" ? "text-red-600" : "text-black";
   };
 
   return (
     <div
-      onClick={onClick}
+      onClick={isPlayable ? onClick : undefined}
       className={cn(
-        "relative w-20 h-32 rounded-lg cursor-pointer transition-transform hover:scale-105",
-        "bg-white shadow-lg border-2 border-gray-200",
+        "relative w-16 h-24 sm:w-20 sm:h-32 rounded-lg transition-all duration-300",
+        "shadow-lg border-2 border-gray-200",
+        isPlayable && !faceDown && "hover:-translate-y-4 cursor-pointer",
+        !isPlayable && "opacity-70",
         className
       )}
     >
       {!faceDown ? (
-        <div className="w-full h-full flex flex-col justify-between p-2">
-          <div className={cn("text-lg font-bold", getSuitColor())}>
+        <div className="w-full h-full flex flex-col justify-between p-2 bg-white rounded-lg">
+          <div className={cn("text-sm sm:text-lg font-bold", getSuitColor())}>
             {value}
             <span className="ml-1">{suit}</span>
           </div>
-          <div className={cn("text-4xl self-center", getSuitColor())}>{suit}</div>
-          <div className={cn("text-lg font-bold rotate-180", getSuitColor())}>
+          <div className={cn("text-2xl sm:text-4xl self-center", getSuitColor())}>{suit}</div>
+          <div className={cn("text-sm sm:text-lg font-bold rotate-180", getSuitColor())}>
             {value}
             <span className="ml-1">{suit}</span>
           </div>
