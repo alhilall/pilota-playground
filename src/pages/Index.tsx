@@ -97,7 +97,7 @@ const Index = () => {
       <div className="container mx-auto p-4">
         <div className="relative w-full h-[calc(100vh-2rem)] max-h-[800px] bg-table rounded-3xl shadow-2xl p-4 sm:p-8">
           {/* الخصم العلوي */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 flex gap-0.5">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 flex -space-x-4 reverse">
             {Array(8).fill(null).map((_, i) => (
               <Card 
                 key={`top-${i}`} 
@@ -111,32 +111,32 @@ const Index = () => {
             ))}
           </div>
 
-          {/* الخصم الأيسر */}
-          <div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-0.5">
+          {/* الخصم الأيسر - تم تحديثه ليكون أفقي ومتداخل */}
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 flex -space-x-12 transform -rotate-90">
             {Array(8).fill(null).map((_, i) => (
               <Card 
                 key={`left-${i}`} 
                 suit="" 
                 value="" 
                 faceDown 
-                orientation="horizontal"
                 isPlayable={false}
                 size="small"
+                className="transform rotate-90"
               />
             ))}
           </div>
 
-          {/* الخصم الأيمن */}
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-0.5">
+          {/* الخصم الأيمن - تم تحديثه ليكون أفقي ومتداخل */}
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex -space-x-12 transform rotate-90">
             {Array(8).fill(null).map((_, i) => (
               <Card 
                 key={`right-${i}`} 
                 suit="" 
                 value="" 
                 faceDown 
-                orientation="horizontal"
                 isPlayable={false}
                 size="small"
+                className="transform -rotate-90"
               />
             ))}
           </div>
